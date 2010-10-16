@@ -2,3 +2,6 @@
 *.exe
 *.pdb
 *.ilk
+*.o
+ProjectHousefire
+project/xcode/build/*
