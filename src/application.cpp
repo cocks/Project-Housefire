@@ -18,6 +18,8 @@
 
 
 #include "application.hpp"
+#include "gameObject.hpp"
+#include "gameObjectController.hpp"
 #include "gameObjectManager.hpp"
 #include <audioManager.h>
 #include <asyncTaskManager.h>

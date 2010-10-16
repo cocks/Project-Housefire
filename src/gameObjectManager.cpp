@@ -19,6 +19,7 @@
 
 #include "gameObjectManager.hpp"
 #include "gameObject.hpp"
+#include "gameObjectController.hpp"
 #include <algorithm>
 
 

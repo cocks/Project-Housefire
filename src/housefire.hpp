@@ -22,7 +22,7 @@
 
 
 #if defined(__APPLE__) || defined(__APPLE_CC__)
-#   error "Apple platforms not yet supported, should include TargetConditionals.h and perform full platform detection."
+#  define HOUSEFIRE_PLATFORM_LINUX 
 #elif defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(__WIN64__)
 #   define HOUSEFIRE_PLATFORM_WINDOWS
 #else

@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		271419271269617D00FDED5D /* application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = application.cpp; path = ../../src/application.cpp; sourceTree = SOURCE_ROOT; };
+		271419281269617D00FDED5D /* application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = application.hpp; path = ../../src/application.hpp; sourceTree = SOURCE_ROOT; };
+		271419291269617D00FDED5D /* gameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gameObject.cpp; path = ../../src/gameObject.cpp; sourceTree = SOURCE_ROOT; };
+		2714192A1269617D00FDED5D /* gameObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = gameObject.hpp; path = ../../src/gameObject.hpp; sourceTree = SOURCE_ROOT; };
+		2714192B1269617D00FDED5D /* gameObjectController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gameObjectController.cpp; path = ../../src/gameObjectController.cpp; sourceTree = SOURCE_ROOT; };
+		2714192C1269617D00FDED5D /* gameObjectController.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = gameObjectController.hpp; path = ../../src/gameObjectController.hpp; sourceTree = SOURCE_ROOT; };
+		2714192D1269617D00FDED5D /* gameObjectManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gameObjectManager.cpp; path = ../../src/gameObjectManager.cpp; sourceTree = SOURCE_ROOT; };
+		2714192E1269617D00FDED5D /* gameObjectManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = gameObjectManager.hpp; path = ../../src/gameObjectManager.hpp; sourceTree = SOURCE_ROOT; };
+		2714192F1269617D00FDED5D /* housefire.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = housefire.hpp; path = ../../src/housefire.hpp; sourceTree = SOURCE_ROOT; };
 		27D75D3F1266656400C30CE6 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../src/main.cpp; sourceTree = SOURCE_ROOT; };
 		27D75D421266658100C30CE6 /* housefire.prc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = housefire.prc; path = ../../housefire.prc; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -15,6 +24,15 @@
 		27D75D28126664E500C30CE6 = {
 			isa = PBXGroup;
 			children = (
+				271419271269617D00FDED5D /* application.cpp */,
+				271419281269617D00FDED5D /* application.hpp */,
+				271419291269617D00FDED5D /* gameObject.cpp */,
+				2714192A1269617D00FDED5D /* gameObject.hpp */,
+				2714192B1269617D00FDED5D /* gameObjectController.cpp */,
+				2714192C1269617D00FDED5D /* gameObjectController.hpp */,
+				2714192D1269617D00FDED5D /* gameObjectManager.cpp */,
+				2714192E1269617D00FDED5D /* gameObjectManager.hpp */,
+				2714192F1269617D00FDED5D /* housefire.hpp */,
 				27D75D421266658100C30CE6 /* housefire.prc */,
 				27D75D3F1266656400C30CE6 /* main.cpp */,
 			);
@@ -44,7 +62,14 @@
 			isa = PBXProject;
 			buildConfigurationList = 27D75D2D126664E500C30CE6 /* Build configuration list for PBXProject "housefire" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 27D75D28126664E500C30CE6;
 			projectDirPath = "";
 			projectRoot = "";
