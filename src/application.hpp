@@ -85,6 +85,7 @@ private:
 	PointerTo< AudioManager > _audio_manager;
 	PointerTo< GenericAsyncTask > _update_task;
 	PointerTo< AudioSound > _background_music;
+	NodePath _gyzweed;
 };
 
 

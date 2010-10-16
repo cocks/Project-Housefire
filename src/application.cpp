@@ -21,6 +21,8 @@
 #include "gameObject.hpp"
 #include "gameObjectController.hpp"
 #include "gameObjectManager.hpp"
+#include <cardMaker.h>
+#include <texturePool.h>
 #include <audioManager.h>
 #include <asyncTaskManager.h>
 #include <clockObject.h>
@@ -81,6 +83,7 @@ bool Application::initiate_engine(int argc, char** argv) {
 	if (!_window) {
 		return false;
 	}
+	_window->setup_trackball();
 
 	_audio_manager = AudioManager::create_AudioManager();
 	_audio_manager->set_volume(1.0f);
@@ -127,6 +130,23 @@ bool Application::load_assets() {
 
 	_background_music->set_loop(true);
 	_background_music->play();
+	
+	CardMaker cardmaker("cardmaker");
+	PT(PandaNode) groundNode = cardmaker.generate();
+	NodePath ground(groundNode);
+	ground.reparent_to(_window->get_render());
+	PT(Texture) groundTex = TexturePool::load_texture("assets/textures/stone.jpg");
+	ground.set_texture(groundTex, 1);
+	ground.flatten_light();	// so the texture attribute doesn't get inherited by _qyzweed
+	ground.set_pos(-10, -5, -10);
+	ground.set_hpr(0, -70, 0);
+	ground.set_scale(20, 20, 20);
+	
+	_gyzweed = _window->load_model(_framework->get_models(), "assets/models/ralph");
+	_gyzweed.reparent_to(ground);
+	_gyzweed.set_scale(0.05, 0.05, 0.05);
+	_gyzweed.set_pos(0.5, 0.02, 0.5);
+	_gyzweed.set_hpr(180, -90, 0);
 
 	return true;
 }
