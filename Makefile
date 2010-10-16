@@ -6,7 +6,7 @@ else
 	P3DLIBDIR := /usr/lib/panda3d
 endif
 
-COMPILEFLAGS := -fPIC -O2 -I/usr/include/python2.6 -I$(P3DINCLUDEDIR) -arch i386
+COMPILEFLAGS := -Wall -fPIC -O2 -I/usr/include/python2.6 -I$(P3DINCLUDEDIR) -arch i386
 OBJECTFILES := main.o application.o gameObject.o gameObjectManager.o gameObjectController.o 
 
 ProjectHousefire: main.o application.o gameObject.o gameObjectManager.o gameObjectController.o

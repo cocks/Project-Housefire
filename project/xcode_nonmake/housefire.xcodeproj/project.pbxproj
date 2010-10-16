@@ -1,0 +1,271 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2714197B1269DE4600FDED5D /* libp3direct.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2714197A1269DE4600FDED5D /* libp3direct.dylib */; };
+		2714197D1269DE4600FDED5D /* libp3dtool.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2714197C1269DE4600FDED5D /* libp3dtool.dylib */; };
+		2714197F1269DE4600FDED5D /* libp3dtoolconfig.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2714197E1269DE4600FDED5D /* libp3dtoolconfig.dylib */; };
+		271419811269DE4600FDED5D /* libp3framework.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 271419801269DE4600FDED5D /* libp3framework.dylib */; };
+		271419831269DE4600FDED5D /* libp3pystub.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 271419821269DE4600FDED5D /* libp3pystub.dylib */; };
+		271419851269DE4600FDED5D /* libpanda.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 271419841269DE4600FDED5D /* libpanda.dylib */; };
+		271419871269DE4600FDED5D /* libpandaexpress.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 271419861269DE4600FDED5D /* libpandaexpress.dylib */; };
+		271419891269DE4600FDED5D /* libpandafx.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 271419881269DE4600FDED5D /* libpandafx.dylib */; };
+		271419BC1269E07300FDED5D /* application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 271419B21269E07300FDED5D /* application.cpp */; };
+		271419BD1269E07300FDED5D /* gameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 271419B41269E07300FDED5D /* gameObject.cpp */; };
+		271419BE1269E07300FDED5D /* gameObjectController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 271419B61269E07300FDED5D /* gameObjectController.cpp */; };
+		271419BF1269E07300FDED5D /* gameObjectManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 271419B81269E07300FDED5D /* gameObjectManager.cpp */; };
+		271419C01269E07300FDED5D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 271419BB1269E07300FDED5D /* main.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2714197A1269DE4600FDED5D /* libp3direct.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libp3direct.dylib; path = Panda3D/lib/libp3direct.dylib; sourceTree = DEVELOPER_DIR; };
+		2714197C1269DE4600FDED5D /* libp3dtool.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libp3dtool.dylib; path = Panda3D/lib/libp3dtool.dylib; sourceTree = DEVELOPER_DIR; };
+		2714197E1269DE4600FDED5D /* libp3dtoolconfig.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libp3dtoolconfig.dylib; path = Panda3D/lib/libp3dtoolconfig.dylib; sourceTree = DEVELOPER_DIR; };
+		271419801269DE4600FDED5D /* libp3framework.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libp3framework.dylib; path = Panda3D/lib/libp3framework.dylib; sourceTree = DEVELOPER_DIR; };
+		271419821269DE4600FDED5D /* libp3pystub.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libp3pystub.dylib; path = Panda3D/lib/libp3pystub.dylib; sourceTree = DEVELOPER_DIR; };
+		271419841269DE4600FDED5D /* libpanda.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpanda.dylib; path = Panda3D/lib/libpanda.dylib; sourceTree = DEVELOPER_DIR; };
+		271419861269DE4600FDED5D /* libpandaexpress.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpandaexpress.dylib; path = Panda3D/lib/libpandaexpress.dylib; sourceTree = DEVELOPER_DIR; };
+		271419881269DE4600FDED5D /* libpandafx.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpandafx.dylib; path = Panda3D/lib/libpandafx.dylib; sourceTree = DEVELOPER_DIR; };
+		271419B21269E07300FDED5D /* application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = application.cpp; path = ../../src/application.cpp; sourceTree = SOURCE_ROOT; };
+		271419B31269E07300FDED5D /* application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = application.hpp; path = ../../src/application.hpp; sourceTree = SOURCE_ROOT; };
+		271419B41269E07300FDED5D /* gameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gameObject.cpp; path = ../../src/gameObject.cpp; sourceTree = SOURCE_ROOT; };
+		271419B51269E07300FDED5D /* gameObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = gameObject.hpp; path = ../../src/gameObject.hpp; sourceTree = SOURCE_ROOT; };
+		271419B61269E07300FDED5D /* gameObjectController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gameObjectController.cpp; path = ../../src/gameObjectController.cpp; sourceTree = SOURCE_ROOT; };
+		271419B71269E07300FDED5D /* gameObjectController.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = gameObjectController.hpp; path = ../../src/gameObjectController.hpp; sourceTree = SOURCE_ROOT; };
+		271419B81269E07300FDED5D /* gameObjectManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gameObjectManager.cpp; path = ../../src/gameObjectManager.cpp; sourceTree = SOURCE_ROOT; };
+		271419B91269E07300FDED5D /* gameObjectManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = gameObjectManager.hpp; path = ../../src/gameObjectManager.hpp; sourceTree = SOURCE_ROOT; };
+		271419BA1269E07300FDED5D /* housefire.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = housefire.hpp; path = ../../src/housefire.hpp; sourceTree = SOURCE_ROOT; };
+		271419BB1269E07300FDED5D /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../src/main.cpp; sourceTree = SOURCE_ROOT; };
+		27B1927C1269E50D009F9C47 /* housefire.prc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = housefire.prc; path = ../../housefire.prc; sourceTree = SOURCE_ROOT; };
+		27B192861269EADD009F9C47 /* ProjectHousefire */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ProjectHousefire; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DD76F660486A84900D96B5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2714197B1269DE4600FDED5D /* libp3direct.dylib in Frameworks */,
+				2714197D1269DE4600FDED5D /* libp3dtool.dylib in Frameworks */,
+				2714197F1269DE4600FDED5D /* libp3dtoolconfig.dylib in Frameworks */,
+				271419811269DE4600FDED5D /* libp3framework.dylib in Frameworks */,
+				271419831269DE4600FDED5D /* libp3pystub.dylib in Frameworks */,
+				271419851269DE4600FDED5D /* libpanda.dylib in Frameworks */,
+				271419871269DE4600FDED5D /* libpandaexpress.dylib in Frameworks */,
+				271419891269DE4600FDED5D /* libpandafx.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08FB7794FE84155DC02AAC07 /* test */ = {
+			isa = PBXGroup;
+			children = (
+				27B1927C1269E50D009F9C47 /* housefire.prc */,
+				271419C11269E07E00FDED5D /* Libraries */,
+				08FB7795FE84155DC02AAC07 /* Source */,
+				1AB674ADFE9D54B511CA2CBB /* Products */,
+			);
+			name = test;
+			sourceTree = "<group>";
+		};
+		08FB7795FE84155DC02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				271419B21269E07300FDED5D /* application.cpp */,
+				271419B31269E07300FDED5D /* application.hpp */,
+				271419B41269E07300FDED5D /* gameObject.cpp */,
+				271419B51269E07300FDED5D /* gameObject.hpp */,
+				271419B61269E07300FDED5D /* gameObjectController.cpp */,
+				271419B71269E07300FDED5D /* gameObjectController.hpp */,
+				271419B81269E07300FDED5D /* gameObjectManager.cpp */,
+				271419B91269E07300FDED5D /* gameObjectManager.hpp */,
+				271419BA1269E07300FDED5D /* housefire.hpp */,
+				271419BB1269E07300FDED5D /* main.cpp */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		1AB674ADFE9D54B511CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				27B192861269EADD009F9C47 /* ProjectHousefire */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		271419C11269E07E00FDED5D /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				2714197A1269DE4600FDED5D /* libp3direct.dylib */,
+				2714197C1269DE4600FDED5D /* libp3dtool.dylib */,
+				2714197E1269DE4600FDED5D /* libp3dtoolconfig.dylib */,
+				271419801269DE4600FDED5D /* libp3framework.dylib */,
+				271419821269DE4600FDED5D /* libp3pystub.dylib */,
+				271419841269DE4600FDED5D /* libpanda.dylib */,
+				271419861269DE4600FDED5D /* libpandaexpress.dylib */,
+				271419881269DE4600FDED5D /* libpandafx.dylib */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8DD76F620486A84900D96B5E /* ProjectHousefire */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB923108733DC60010E9CD /* Build configuration list for PBXNativeTarget "ProjectHousefire" */;
+			buildPhases = (
+				8DD76F640486A84900D96B5E /* Sources */,
+				8DD76F660486A84900D96B5E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ProjectHousefire;
+			productInstallPath = "$(HOME)/bin";
+			productName = test;
+			productReference = 27B192861269EADD009F9C47 /* ProjectHousefire */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB923508733DC60010E9CD /* Build configuration list for PBXProject "housefire" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 08FB7794FE84155DC02AAC07 /* test */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8DD76F620486A84900D96B5E /* ProjectHousefire */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DD76F640486A84900D96B5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				271419BC1269E07300FDED5D /* application.cpp in Sources */,
+				271419BD1269E07300FDED5D /* gameObject.cpp in Sources */,
+				271419BE1269E07300FDED5D /* gameObjectController.cpp in Sources */,
+				271419BF1269E07300FDED5D /* gameObjectManager.cpp in Sources */,
+				271419C01269E07300FDED5D /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB923208733DC60010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/bin;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(DEVELOPER_DIR)/Panda3D/lib\"",
+				);
+				PRODUCT_NAME = ProjectHousefire;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
+				SYMROOT = ../..;
+			};
+			name = Debug;
+		};
+		1DEB923308733DC60010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(DEVELOPER_DIR)/Panda3D/lib\"",
+				);
+				PRODUCT_NAME = test;
+			};
+			name = Release;
+		};
+		1DEB923608733DC60010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/usr/include/python2.6,
+					/Developer/Panda3D/include,
+				);
+				LIBRARY_SEARCH_PATHS = /Developer/Panda3D/lib;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+				VALID_ARCHS = i386;
+			};
+			name = Debug;
+		};
+		1DEB923708733DC60010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB923108733DC60010E9CD /* Build configuration list for PBXNativeTarget "ProjectHousefire" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB923208733DC60010E9CD /* Debug */,
+				1DEB923308733DC60010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB923508733DC60010E9CD /* Build configuration list for PBXProject "housefire" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB923608733DC60010E9CD /* Debug */,
+				1DEB923708733DC60010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}

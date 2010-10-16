@@ -5,3 +5,5 @@
 *.o
 ProjectHousefire
 project/xcode/build/*
+project/xcode_nonmake/build/*
+housefire.build/*
