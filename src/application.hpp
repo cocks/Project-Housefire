@@ -43,8 +43,12 @@ public:
 	ConfigPage* get_config_page() const;
 
 	PandaFramework* get_framework() const;
-
+	
 	WindowFramework* get_window() const;
+	
+	NodePath get_gyzweed() const;
+	
+	NodePath get_ground() const;
 
 	PointerTo< AudioManager > const& get_audio_manager() const;
 
@@ -71,6 +75,8 @@ private:
 	bool load_assets();
 
 	void unload_assets();
+	
+	static void handle_mouse(const Event* e, void* data);
 
 	void update();
 
@@ -86,6 +92,7 @@ private:
 	PointerTo< GenericAsyncTask > _update_task;
 	PointerTo< AudioSound > _background_music;
 	NodePath _gyzweed;
+	NodePath _ground;
 };
 
 
@@ -99,6 +106,14 @@ inline PandaFramework* Application::get_framework() const {
 
 inline WindowFramework* Application::get_window() const {
 	return _window;
+}
+
+inline NodePath Application::get_gyzweed() const {
+	return _gyzweed;
+}
+
+inline NodePath Application::get_ground() const {
+	return _ground;
 }
 
 inline PointerTo< AudioManager > const& Application::get_audio_manager() const {

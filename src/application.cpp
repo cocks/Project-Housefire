@@ -21,12 +21,24 @@
 #include "gameObject.hpp"
 #include "gameObjectController.hpp"
 #include "gameObjectManager.hpp"
+#include <mouseWatcher.h>
+#include <collisionRay.h>
+#include <collisionTraverser.h>
+#include <collisionHandlerQueue.h>
+#include <collisionNode.h>
 #include <cardMaker.h>
 #include <texturePool.h>
 #include <audioManager.h>
 #include <asyncTaskManager.h>
 #include <clockObject.h>
 #include <load_prc_file.h>
+
+PT(MouseWatcher) mouseWatcher;
+PT(CollisionRay) pickerRay;
+CollisionTraverser myTraverser = CollisionTraverser("ctraverser");
+PT(CollisionHandlerQueue) myHandler = new CollisionHandlerQueue();
+PT(CollisionNode) pickerNode;
+NodePath pickerNP;
 
 
 Application::Application()
@@ -52,11 +64,11 @@ bool Application::initiate(int argc, char** argv) {
 	if (!initiate_engine(argc, argv)) {
 		return false;
 	}
-
+	
 	if (!load_assets()) {
 		return false;
 	}
-
+	
 	return true;
 }
 
@@ -74,25 +86,28 @@ bool Application::initiate_engine(int argc, char** argv) {
 	if (!_config_page) {
 		return false;
 	}
-
+	
 	_framework = new PandaFramework;
 	_framework->open_framework(argc, argv);
 	_framework->set_window_title("Project Housefire");
-
+	
 	_window = _framework->open_window();
 	if (!_window) {
 		return false;
 	}
-	_window->setup_trackball();
-
+	//_framework->disable_mouse();
+	_window->enable_keyboard();
+	
 	_audio_manager = AudioManager::create_AudioManager();
 	_audio_manager->set_volume(1.0f);
-
+	
 	_object_manager = new GameObjectManager;
-
+	
 	_update_task = new GenericAsyncTask("HousefireUpdateTask", &Application::update_task_callback, this);
 	_framework->get_task_mgr().add(_update_task);
-
+	
+	_framework->define_key("mouse1", "click", Application::handle_mouse, this);
+	
 	return true;
 }
 
@@ -101,14 +116,16 @@ void Application::terminate_engine() {
 		_framework->get_task_mgr().remove(_update_task);
 		_update_task.clear();
 	}
-
+	
 	_object_manager.clear();
 	_audio_manager.clear();
-
+	
+	_framework->close_framework();
+	
 	delete _framework;
 	_framework = 0;
 	_window = 0;
-
+	
 	if (_config_page) {
 		unload_prc_file(_config_page);
 		_config_page = 0;
@@ -127,28 +144,69 @@ bool Application::load_assets() {
 	if (!_background_music) {
 		return false;
 	}
-
+	
 	_background_music->set_loop(true);
 	_background_music->play();
 	
 	CardMaker cardmaker("cardmaker");
 	PT(PandaNode) groundNode = cardmaker.generate();
-	NodePath ground(groundNode);
-	ground.reparent_to(_window->get_render());
+	_ground = *(new NodePath(groundNode));
+	_ground.reparent_to(_window->get_render());
 	PT(Texture) groundTex = TexturePool::load_texture("assets/textures/stone.jpg");
-	ground.set_texture(groundTex, 1);
-	ground.flatten_light();	// so the texture attribute doesn't get inherited by _qyzweed
-	ground.set_pos(-10, -5, -10);
-	ground.set_hpr(0, -70, 0);
-	ground.set_scale(20, 20, 20);
+	_ground.set_texture(groundTex, 1);
+	_ground.flatten_light();	// so the texture attribute doesn't get inherited by _qyzweed
+	_ground.set_pos(-20, 0, -20);
+	_ground.set_hpr(0, -90, 0);
+	_ground.set_scale(40, 40, 40);
 	
 	_gyzweed = _window->load_model(_framework->get_models(), "assets/models/ralph");
-	_gyzweed.reparent_to(ground);
-	_gyzweed.set_scale(0.05, 0.05, 0.05);
-	_gyzweed.set_pos(0.5, 0.02, 0.5);
+	_gyzweed.reparent_to(_ground);
+	_gyzweed.set_scale(0.025, 0.025, 0.025);
+	_gyzweed.set_pos(0.5, -0.02, 0.5);
 	_gyzweed.set_hpr(180, -90, 0);
-
+	
+	_window->get_camera_group().set_pos(0, -25, 5);
+	//_window->get_camera_group().set_hpr(0, 50, 0);
+	_window->get_camera_group().look_at(_gyzweed);
+	
+	pickerNode = new CollisionNode("mouseRay");
+	pickerNP = _window->get_camera_group().attach_new_node (pickerNode);
+	pickerNode->set_from_collide_mask(GeomNode::get_default_collide_mask());
+	pickerRay = new CollisionRay();
+	pickerNode->add_solid(pickerRay);
+	myHandler = new CollisionHandlerQueue();
+	myTraverser.add_collider(pickerNP, myHandler);
+	myTraverser.show_collisions(_window->get_render());
+	
+	_ground.set_tag("groundTag", "1");
+	
+	mouseWatcher = DCAST (MouseWatcher, _window->get_mouse().node());
+	
 	return true;
+}
+
+void Application::handle_mouse(const Event* e, void* data) {
+	Application* app = static_cast< Application* >(data);
+	
+	if (!mouseWatcher->has_mouse()){
+		// The mouse is probably outside the screen.
+		//nout << "nomouse\n";
+		return;
+	}
+	// This gives up the screen coordinates of the mouse.
+	LPoint2f mpos = mouseWatcher->get_mouse();
+	
+	// This makes the ray's origin the camera and makes the ray point 
+	// to the screen coordinates of the mouse.
+	pickerRay->set_from_lens(app->get_window()->get_camera(0), mpos.get_x(), mpos.get_y());
+	
+	//nout << mpos.get_x() << " " << mpos.get_y() << "\n";
+	
+	myTraverser.traverse(app->get_window()->get_render());
+	LPoint3f newPos = myHandler->get_entry(0)->get_surface_point(app->get_ground());
+	//newPos.set_z(app->get_gyzweed().get_pos().get_z());
+	app->get_gyzweed().set_pos(newPos);
+	nout << newPos.get_x() << " " << newPos.get_y() << " " << newPos.get_z() << " " << "\n";
 }
 
 void Application::unload_assets() {
@@ -166,6 +224,8 @@ void Application::update() {
 	double elapsed = clock->get_dt();
 	_object_manager->update(elapsed);
 	_audio_manager->update();
+	
+	//_framework->get_event_handler().dispatch_event("mouse1");
 }
 
 AsyncTask::DoneStatus Application::update_task_callback(GenericAsyncTask* task, void* data) {
