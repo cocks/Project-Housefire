@@ -35,13 +35,13 @@ class Application
 {
 	Application(Application const&);
 	Application& operator=(Application const&);
-
+	
 public:
-
+	
 	static Application* instance();
-
+	
 	ConfigPage* get_config_page() const;
-
+	
 	PandaFramework* get_framework() const;
 	
 	WindowFramework* get_window() const;
@@ -49,41 +49,43 @@ public:
 	NodePath get_gyzweed() const;
 	
 	NodePath get_ground() const;
-
+	
+	AnimControlCollection get_animControls() const;
+	
 	PointerTo< AudioManager > const& get_audio_manager() const;
-
+	
 	GameObjectManagerPtr const& get_object_manager() const;
-
+	
 #ifdef HOUSEFIRE_PLATFORM_WINDOWS
 	bool initiate(LPTSTR commandLine);
 #endif
-
+	
 	bool initiate(int argc, char** argv);
-
+	
 	void terminate();
-
+	
 	void run();
-
+	
 private:
-
+	
 	Application();
-
+	
 	bool initiate_engine(int argc, char** argv);
-
+	
 	void terminate_engine();
-
+	
 	bool load_assets();
-
+	
 	void unload_assets();
 	
 	static void handle_mouse(const Event* e, void* data);
-
+	
 	void update();
-
+	
 	static AsyncTask::DoneStatus update_task_callback(GenericAsyncTask* task, void* data);
-
+	
 private:
-
+	
 	ConfigPage* _config_page;
 	PandaFramework* _framework;
 	WindowFramework* _window;
@@ -93,6 +95,7 @@ private:
 	PointerTo< AudioSound > _background_music;
 	NodePath _gyzweed;
 	NodePath _ground;
+	AnimControlCollection _animControls;
 };
 
 
@@ -114,6 +117,10 @@ inline NodePath Application::get_gyzweed() const {
 
 inline NodePath Application::get_ground() const {
 	return _ground;
+}
+
+inline AnimControlCollection Application::get_animControls() const {
+	return _animControls;
 }
 
 inline PointerTo< AudioManager > const& Application::get_audio_manager() const {

@@ -21,6 +21,10 @@
 #include "gameObject.hpp"
 #include "gameObjectController.hpp"
 #include "gameObjectManager.hpp"
+#include <cLerpNodePathInterval.h>
+#include <cIntervalManager.h>
+#include <auto_bind.h>
+#include <animControlCollection.h>
 #include <mouseWatcher.h>
 #include <collisionRay.h>
 #include <collisionTraverser.h>
@@ -40,6 +44,7 @@ PT(CollisionHandlerQueue) myHandler = new CollisionHandlerQueue();
 PT(CollisionNode) pickerNode;
 NodePath pickerNP;
 
+PT(CLerpNodePathInterval) gyzweedWalkInterval;
 
 Application::Application()
 : _config_page(0),
@@ -174,11 +179,15 @@ bool Application::load_assets() {
 	_ground.flatten_light();	// so the texture attribute doesn't get inherited by _qyzweed
 	_ground.set_pos(-20, 0, -20);
 	_ground.set_hpr(0, -90, 0);
-	_ground.set_scale(40, 40, 40);
+	_ground.set_scale(40);
 	
 	_gyzweed = _window->load_model(_framework->get_models(), "assets/models/ralph");
+	_window->load_model(_gyzweed, "assets/models/ralph-walk");
+	
+	auto_bind(_gyzweed.node(), _animControls, PartGroup::HMF_ok_part_extra | PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
+	
 	_gyzweed.reparent_to(_window->get_render());
-	_gyzweed.set_scale(0.5, 0.5, 0.5);
+	_gyzweed.set_scale(0.5);
 	_gyzweed.set_pos(_ground.get_x()+20, _ground.get_y()+20, _ground.get_z());
 	_gyzweed.set_hpr(180, 0, 0);
 	
@@ -212,12 +221,26 @@ void Application::handle_mouse(const Event* e, void* data) {
 	myTraverser.traverse(app->get_window()->get_render());
 	LPoint3f newPos = myHandler->get_entry(0)->get_surface_point(app->get_window()->get_render());
 	
+	// stop walking if gyz already is
+	if (gyzweedWalkInterval != NULL) {
+		gyzweedWalkInterval->set_end_pos(app->get_gyzweed().get_pos());
+		gyzweedWalkInterval->finish();
+	}
+	
 	// make gyz look at where you clicked
 	app->get_gyzweed().heads_up(newPos);
 	app->get_gyzweed().set_h(((int)app->get_gyzweed().get_h()+180)%360);	// 'ralph' model is front-facing so we have to turn him around.
-																			// the %360 is to prevent overturning
+	// the %360 is to prevent overturning
+	app->get_animControls().loop_all(true);
 	
-	app->get_gyzweed().set_pos(newPos);
+	// walk to where you clicked
+	gyzweedWalkInterval = new CLerpNodePathInterval("gyzweedWalkInterval",
+													3.0, CLerpInterval::BT_no_blend, true, false, app->get_gyzweed(), NodePath());
+	gyzweedWalkInterval->set_end_pos(newPos);
+	gyzweedWalkInterval->setup_play(0, 10, 1, false);
+	gyzweedWalkInterval->start();
+	
+	
 	//app->get_window()->get_camera_group().look_at(app->get_gyzweed());
 }
 
@@ -236,6 +259,13 @@ void Application::update() {
 	double elapsed = clock->get_dt();
 	_object_manager->update(elapsed);
 	_audio_manager->update();
+	
+	if(gyzweedWalkInterval != NULL) 
+		if(!gyzweedWalkInterval->step_play()) {	// returns false when the interval is finished
+			gyzweedWalkInterval = NULL;
+			_animControls.stop_all();
+			_animControls.pose_all(17);
+		}
 }
 
 AsyncTask::DoneStatus Application::update_task_callback(GenericAsyncTask* task, void* data) {
