@@ -50,7 +50,7 @@ public:
 	
 	NodePath get_ground() const;
 	
-	AnimControlCollection get_animControls() const;
+	AnimControlCollection get_anim_controls() const;
 	
 	PointerTo< AudioManager > const& get_audio_manager() const;
 	
@@ -95,7 +95,7 @@ private:
 	PointerTo< AudioSound > _background_music;
 	NodePath _gyzweed;
 	NodePath _ground;
-	AnimControlCollection _animControls;
+	AnimControlCollection _anim_controls;
 };
 
 
@@ -119,8 +119,8 @@ inline NodePath Application::get_ground() const {
 	return _ground;
 }
 
-inline AnimControlCollection Application::get_animControls() const {
-	return _animControls;
+inline AnimControlCollection Application::get_anim_controls() const {
+	return _anim_controls;
 }
 
 inline PointerTo< AudioManager > const& Application::get_audio_manager() const {

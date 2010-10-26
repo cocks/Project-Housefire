@@ -182,9 +182,10 @@ bool Application::load_assets() {
 	_ground.set_scale(40);
 	
 	_gyzweed = _window->load_model(_framework->get_models(), "assets/models/ralph");
-	_window->load_model(_gyzweed, "assets/models/ralph-walk");
+	_window->load_model(_gyzweed, "assets/models/ralph-run");
 	
-	auto_bind(_gyzweed.node(), _animControls, PartGroup::HMF_ok_part_extra | PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
+	auto_bind(_gyzweed.node(), _anim_controls,
+			  PartGroup::HMF_ok_part_extra | PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
 	
 	_gyzweed.reparent_to(_window->get_render());
 	_gyzweed.set_scale(0.5);
@@ -231,11 +232,16 @@ void Application::handle_mouse(const Event* e, void* data) {
 	app->get_gyzweed().heads_up(newPos);
 	app->get_gyzweed().set_h(((int)app->get_gyzweed().get_h()+180)%360);	// 'ralph' model is front-facing so we have to turn him around.
 	// the %360 is to prevent overturning
-	app->get_animControls().loop_all(true);
+	app->get_anim_controls().loop_all(true);
 	
 	// walk to where you clicked
+	int walkSpeed = 7;
+	LVector3f walkVect = app->get_gyzweed().get_pos() - newPos;
+	float walkDistance = walkVect.length();
+	float walkTime = walkDistance / walkSpeed;
+	
 	gyzweedWalkInterval = new CLerpNodePathInterval("gyzweedWalkInterval",
-													3.0, CLerpInterval::BT_no_blend, true, false, app->get_gyzweed(), NodePath());
+													walkTime, CLerpInterval::BT_no_blend, true, false, app->get_gyzweed(), NodePath());
 	gyzweedWalkInterval->set_end_pos(newPos);
 	gyzweedWalkInterval->setup_play(0, 10, 1, false);
 	gyzweedWalkInterval->start();
@@ -263,8 +269,8 @@ void Application::update() {
 	if(gyzweedWalkInterval != NULL) 
 		if(!gyzweedWalkInterval->step_play()) {	// returns false when the interval is finished
 			gyzweedWalkInterval = NULL;
-			_animControls.stop_all();
-			_animControls.pose_all(17);
+			_anim_controls.stop_all();
+			_anim_controls.pose_all(4);
 		}
 }
 
