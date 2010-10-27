@@ -25,5 +25,5 @@ $(BINDIR)/gameObjectManager.o: src/gameObjectManager.cpp
 $(BINDIR)/gameObjectController.o: src/gameObjectController.cpp
 	g++ -c src/gameObjectController.cpp -o $(BINDIR)/gameObjectController.o $(COMPILEFLAGS)
 clean:
+	rm -f $(OBJECTFILES) $(BINDIR)/ProjectHousefire 
 	rmdir $(BINDIR)
-	rm $(OBJECTFILES) $(BINDIR)/ProjectHousefire 
