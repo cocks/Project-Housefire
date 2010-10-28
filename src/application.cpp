@@ -21,6 +21,8 @@
 #include "gameObject.hpp"
 #include "gameObjectController.hpp"
 #include "gameObjectManager.hpp"
+#include <texturePool.h>
+#include <directionalLight.h>
 #include <cLerpNodePathInterval.h>
 #include <cIntervalManager.h>
 #include <auto_bind.h>
@@ -30,8 +32,6 @@
 #include <collisionTraverser.h>
 #include <collisionHandlerQueue.h>
 #include <collisionNode.h>
-#include <cardMaker.h>
-#include <texturePool.h>
 #include <audioManager.h>
 #include <asyncTaskManager.h>
 #include <clockObject.h>
@@ -43,6 +43,7 @@ CollisionTraverser myTraverser = CollisionTraverser("ctraverser");
 PT(CollisionHandlerQueue) myHandler = new CollisionHandlerQueue();
 PT(CollisionNode) pickerNode;
 NodePath pickerNP;
+PT(DirectionalLight) d_light;
 
 PT(CLerpNodePathInterval) gyzweedWalkInterval;
 
@@ -100,7 +101,6 @@ bool Application::initiate_engine(int argc, char** argv) {
 	if (!_window) {
 		return false;
 	}
-	//_framework->disable_mouse();
 	_window->enable_keyboard();
 	
 	_audio_manager = AudioManager::create_AudioManager();
@@ -155,12 +155,6 @@ bool Application::load_assets() {
 	// different stages of the game or screens in the menu, ie. MainMenu,
 	// SinglePlayerMenu, GameWorld, etc.
 	
-	// ALSO TODO: I (cocks) tried to refactor Gyzweed out into a separate class
-	// that inherits from GameObject but apparently I need to study my sepples
-	// some more.  (Also, is that even the way you're supposed to use GameObject?)
-	// If anyone wants to do it or point me in the right direction or something
-	// I would be quite grateful.
-	
 	_background_music = _audio_manager->get_sound("assets/music/ambience.ogg");
 	if (!_background_music) {
 		return false;
@@ -170,30 +164,36 @@ bool Application::load_assets() {
 	_background_music->play();
 	
 	// make a flat textured poly for the ground
-	CardMaker cardmaker("cardmaker");
-	PT(PandaNode) groundNode = cardmaker.generate();
-	_ground = *(new NodePath(groundNode));
+	_ground = _window->load_model(_framework->get_models(), "background");
 	_ground.reparent_to(_window->get_render());
-	PT(Texture) groundTex = TexturePool::load_texture("assets/textures/stone.jpg");
+	PT(Texture) groundTex = TexturePool::load_texture("assets/textures/burnt_sand_light.png");
 	_ground.set_texture(groundTex, 1);
-	_ground.flatten_light();	// so the texture attribute doesn't get inherited by _qyzweed
-	_ground.set_pos(-20, 0, -20);
-	_ground.set_hpr(0, -90, 0);
-	_ground.set_scale(40);
+	_ground.flatten_light();        // so the texture attribute doesn't get inherited by _qyzweed
+	_ground.set_pos(0,0,0);
+	_ground.set_hpr(0,0,0);
 	
-	_gyzweed = _window->load_model(_framework->get_models(), "assets/models/ralph");
-	_window->load_model(_gyzweed, "assets/models/ralph-run");
+	_gyzweed = _window->load_model(_framework->get_models(), "ralph");
+	_window->load_model(_gyzweed, "ralph-run");
 	
 	auto_bind(_gyzweed.node(), _anim_controls,
 			  PartGroup::HMF_ok_part_extra | PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
 	
 	_gyzweed.reparent_to(_window->get_render());
-	_gyzweed.set_scale(0.5);
+	_gyzweed.set_scale(1.1);
 	_gyzweed.set_pos(_ground.get_x()+20, _ground.get_y()+20, _ground.get_z());
 	_gyzweed.set_hpr(180, 0, 0);
 	
-	_window->get_camera_group().set_pos(0, -25, 5);
+	_window->get_camera_group().reparent_to(_gyzweed);
+	_window->get_camera_group().set_pos(0, 100, 80);
 	_window->get_camera_group().look_at(_gyzweed);
+	
+	d_light = new DirectionalLight("my d_light");
+	NodePath dlnp = _window->get_render().attach_new_node(d_light);
+	d_light->set_direction(LVector3f(-5, -5, -5));
+	_window->get_render().set_light(dlnp);
+	
+	_window->set_texture(1);
+	_window->set_lighting(1);
 	
 	// for collisions
 	_ground.set_tag("groundTag", "1");
@@ -220,7 +220,13 @@ void Application::handle_mouse(const Event* e, void* data) {
 	pickerRay->set_from_lens(app->get_window()->get_camera(0), mpos.get_x(), mpos.get_y());
 	
 	myTraverser.traverse(app->get_window()->get_render());
-	LPoint3f newPos = myHandler->get_entry(0)->get_surface_point(app->get_window()->get_render());
+	
+	LPoint3f newPos;
+	if (myHandler->get_num_entries() > 0) {
+		newPos = myHandler->get_entry(0)->get_surface_point(app->get_window()->get_render());
+	} else {
+		return;
+	}
 	
 	// stop walking if gyz already is
 	if (gyzweedWalkInterval != NULL) {
@@ -235,7 +241,7 @@ void Application::handle_mouse(const Event* e, void* data) {
 	app->get_anim_controls().loop_all(true);
 	
 	// walk to where you clicked
-	int walkSpeed = 7;
+	int walkSpeed = 11;
 	LVector3f walkVect = app->get_gyzweed().get_pos() - newPos;
 	float walkDistance = walkVect.length();
 	float walkTime = walkDistance / walkSpeed;
