@@ -20,6 +20,7 @@
 		271419BE1269E07300FDED5D /* gameObjectController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 271419B61269E07300FDED5D /* gameObjectController.cpp */; };
 		271419BF1269E07300FDED5D /* gameObjectManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 271419B81269E07300FDED5D /* gameObjectManager.cpp */; };
 		271419C01269E07300FDED5D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 271419BB1269E07300FDED5D /* main.cpp */; };
+		277F9D951279A9E600FF1A0D /* gyzweed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 277F9D941279A9E600FF1A0D /* gyzweed.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,8 @@
 		271419B91269E07300FDED5D /* gameObjectManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = gameObjectManager.hpp; path = ../../src/gameObjectManager.hpp; sourceTree = SOURCE_ROOT; };
 		271419BA1269E07300FDED5D /* housefire.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = housefire.hpp; path = ../../src/housefire.hpp; sourceTree = SOURCE_ROOT; };
 		271419BB1269E07300FDED5D /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../src/main.cpp; sourceTree = SOURCE_ROOT; };
+		277F9D931279A9E600FF1A0D /* gyzweed.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = gyzweed.hpp; path = ../../src/gyzweed.hpp; sourceTree = SOURCE_ROOT; };
+		277F9D941279A9E600FF1A0D /* gyzweed.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gyzweed.cpp; path = ../../src/gyzweed.cpp; sourceTree = SOURCE_ROOT; };
 		27B1927C1269E50D009F9C47 /* housefire.prc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = housefire.prc; path = ../../housefire.prc; sourceTree = SOURCE_ROOT; };
 		27B192861269EADD009F9C47 /* ProjectHousefire */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ProjectHousefire; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -88,6 +91,8 @@
 				271419B91269E07300FDED5D /* gameObjectManager.hpp */,
 				271419BA1269E07300FDED5D /* housefire.hpp */,
 				271419BB1269E07300FDED5D /* main.cpp */,
+				277F9D931279A9E600FF1A0D /* gyzweed.hpp */,
+				277F9D941279A9E600FF1A0D /* gyzweed.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -169,6 +174,7 @@
 				271419BE1269E07300FDED5D /* gameObjectController.cpp in Sources */,
 				271419BF1269E07300FDED5D /* gameObjectManager.cpp in Sources */,
 				271419C01269E07300FDED5D /* main.cpp in Sources */,
+				277F9D951279A9E600FF1A0D /* gyzweed.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

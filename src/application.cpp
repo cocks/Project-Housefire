@@ -50,7 +50,8 @@ PT(CLerpNodePathInterval) gyzweedWalkInterval;
 Application::Application()
 : _config_page(0),
 _framework(0),
-_window(0) {
+_window(0),
+_gyzweed(0) {
 }
 
 Application* Application::instance() {
@@ -155,7 +156,13 @@ bool Application::load_assets() {
 	// different stages of the game or screens in the menu, ie. MainMenu,
 	// SinglePlayerMenu, GameWorld, etc.
 	
-	_background_music = _audio_manager->get_sound("assets/music/ambience.ogg");
+	srand ( time(NULL) );
+	if (rand() % 4 != 0) {
+		_background_music = _audio_manager->get_sound("assets/music/ambience.ogg");
+	} else {
+		_background_music = _audio_manager->get_sound("assets/music/durr.ogg");
+	}
+	
 	if (!_background_music) {
 		return false;
 	}
@@ -172,27 +179,20 @@ bool Application::load_assets() {
 	_ground.set_pos(0,0,0);
 	_ground.set_hpr(0,0,0);
 	
-	_gyzweed = _window->load_model(_framework->get_models(), "ralph");
-	_window->load_model(_gyzweed, "ralph-run");
+	_gyzweed = new Gyzweed(*this);
 	
-	auto_bind(_gyzweed.node(), _anim_controls,
+	auto_bind(_gyzweed->get_node_path().node(), _anim_controls,
 			  PartGroup::HMF_ok_part_extra | PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
 	
-	_gyzweed.reparent_to(_window->get_render());
-	_gyzweed.set_scale(1.1);
-	_gyzweed.set_pos(_ground.get_x()+20, _ground.get_y()+20, _ground.get_z());
-	_gyzweed.set_hpr(180, 0, 0);
-	
-	_window->get_camera_group().reparent_to(_gyzweed);
+	_window->get_camera_group().reparent_to(_gyzweed->get_node_path());
 	_window->get_camera_group().set_pos(0, 100, 80);
-	_window->get_camera_group().look_at(_gyzweed);
+	_window->get_camera_group().look_at(_gyzweed->get_node_path());
 	
 	d_light = new DirectionalLight("my d_light");
 	NodePath dlnp = _window->get_render().attach_new_node(d_light);
 	d_light->set_direction(LVector3f(-5, -5, -5));
 	_window->get_render().set_light(dlnp);
 	
-	_window->set_texture(1);
 	_window->set_lighting(1);
 	
 	// for collisions
@@ -230,30 +230,27 @@ void Application::handle_mouse(const Event* e, void* data) {
 	
 	// stop walking if gyz already is
 	if (gyzweedWalkInterval != NULL) {
-		gyzweedWalkInterval->set_end_pos(app->get_gyzweed().get_pos());
+		gyzweedWalkInterval->set_end_pos(app->get_gyzweed()->get_node_path().get_pos());
 		gyzweedWalkInterval->finish();
 	}
 	
 	// make gyz look at where you clicked
-	app->get_gyzweed().heads_up(newPos);
-	app->get_gyzweed().set_h(((int)app->get_gyzweed().get_h()+180)%360);	// 'ralph' model is front-facing so we have to turn him around.
-	// the %360 is to prevent overturning
+	app->get_gyzweed()->get_node_path().heads_up(newPos);
+	// 'ralph' model is front-facing so we have to turn him around.
+	app->get_gyzweed()->get_node_path().set_h(((int)app->get_gyzweed()->get_node_path().get_h()+180)%360); // the %360 is to prevent overturning
 	app->get_anim_controls().loop_all(true);
 	
 	// walk to where you clicked
 	int walkSpeed = 11;
-	LVector3f walkVect = app->get_gyzweed().get_pos() - newPos;
+	LVector3f walkVect = app->get_gyzweed()->get_node_path().get_pos() - newPos;
 	float walkDistance = walkVect.length();
 	float walkTime = walkDistance / walkSpeed;
 	
 	gyzweedWalkInterval = new CLerpNodePathInterval("gyzweedWalkInterval",
-													walkTime, CLerpInterval::BT_no_blend, true, false, app->get_gyzweed(), NodePath());
+													walkTime, CLerpInterval::BT_no_blend, true, false, app->get_gyzweed()->get_node_path(), NodePath());
 	gyzweedWalkInterval->set_end_pos(newPos);
 	gyzweedWalkInterval->setup_play(0, 10, 1, false);
 	gyzweedWalkInterval->start();
-	
-	
-	//app->get_window()->get_camera_group().look_at(app->get_gyzweed());
 }
 
 void Application::unload_assets() {

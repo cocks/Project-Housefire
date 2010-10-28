@@ -42,6 +42,7 @@
 
 
 class Application;
+class Gyzweed;
 class GameObject;
 class GameObjectController;
 class GameObjectManager;

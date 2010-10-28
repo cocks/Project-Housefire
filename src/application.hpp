@@ -22,6 +22,7 @@
 
 
 #include "housefire.hpp"
+#include "gyzweed.hpp"
 #include <configPage.h>
 #include <genericAsyncTask.h>
 #include <windowFramework.h>
@@ -46,7 +47,7 @@ public:
 	
 	WindowFramework* get_window() const;
 	
-	NodePath get_gyzweed() const;
+	Gyzweed* get_gyzweed() const;
 	
 	NodePath get_ground() const;
 	
@@ -93,7 +94,7 @@ private:
 	PointerTo< AudioManager > _audio_manager;
 	PointerTo< GenericAsyncTask > _update_task;
 	PointerTo< AudioSound > _background_music;
-	NodePath _gyzweed;
+	Gyzweed* _gyzweed;
 	NodePath _ground;
 	AnimControlCollection _anim_controls;
 };
@@ -111,7 +112,7 @@ inline WindowFramework* Application::get_window() const {
 	return _window;
 }
 
-inline NodePath Application::get_gyzweed() const {
+inline Gyzweed* Application::get_gyzweed() const {
 	return _gyzweed;
 }
 
