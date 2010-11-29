@@ -23,7 +23,6 @@
 #include "gameObjectManager.hpp"
 #include <texturePool.h>
 #include <directionalLight.h>
-#include <cLerpNodePathInterval.h>
 #include <cIntervalManager.h>
 #include <auto_bind.h>
 #include <animControlCollection.h>
@@ -37,6 +36,7 @@
 #include <clockObject.h>
 #include <load_prc_file.h>
 
+// TODO: get rid of these globals
 PT(MouseWatcher) mouseWatcher;
 PT(CollisionRay) pickerRay;
 CollisionTraverser myTraverser = CollisionTraverser("ctraverser");
@@ -44,8 +44,6 @@ PT(CollisionHandlerQueue) myHandler = new CollisionHandlerQueue();
 PT(CollisionNode) pickerNode;
 NodePath pickerNP;
 PT(DirectionalLight) d_light;
-
-PT(CLerpNodePathInterval) gyzweedWalkInterval;
 
 Application::Application()
 : _config_page(0),
@@ -157,7 +155,7 @@ bool Application::load_assets() {
 	// SinglePlayerMenu, GameWorld, etc.
 	
 	srand ( time(NULL) );
-	if (rand() % 4 != 0) {
+	if (rand() % 2 != 0) {
 		_background_music = _audio_manager->get_sound("assets/music/ambience.ogg");
 	} else {
 		_background_music = _audio_manager->get_sound("assets/music/durr.ogg");
@@ -175,7 +173,7 @@ bool Application::load_assets() {
 	_ground.reparent_to(_window->get_render());
 	PT(Texture) groundTex = TexturePool::load_texture("assets/textures/burnt_sand_light.png");
 	_ground.set_texture(groundTex, 1);
-	_ground.flatten_light();        // so the texture attribute doesn't get inherited by _qyzweed
+	_ground.flatten_light();        // so the texture attribute doesn't get inherited by _gyzweed
 	_ground.set_pos(0,0,0);
 	_ground.set_hpr(0,0,0);
 	
@@ -228,29 +226,7 @@ void Application::handle_mouse(const Event* e, void* data) {
 		return;
 	}
 	
-	// stop walking if gyz already is
-	if (gyzweedWalkInterval != NULL) {
-		gyzweedWalkInterval->set_end_pos(app->get_gyzweed()->get_node_path().get_pos());
-		gyzweedWalkInterval->finish();
-	}
-	
-	// make gyz look at where you clicked
-	app->get_gyzweed()->get_node_path().heads_up(newPos);
-	// 'ralph' model is front-facing so we have to turn him around.
-	app->get_gyzweed()->get_node_path().set_h(((int)app->get_gyzweed()->get_node_path().get_h()+180)%360); // the %360 is to prevent overturning
-	app->get_anim_controls().loop_all(true);
-	
-	// walk to where you clicked
-	int walkSpeed = 11;
-	LVector3f walkVect = app->get_gyzweed()->get_node_path().get_pos() - newPos;
-	float walkDistance = walkVect.length();
-	float walkTime = walkDistance / walkSpeed;
-	
-	gyzweedWalkInterval = new CLerpNodePathInterval("gyzweedWalkInterval",
-													walkTime, CLerpInterval::BT_no_blend, true, false, app->get_gyzweed()->get_node_path(), NodePath());
-	gyzweedWalkInterval->set_end_pos(newPos);
-	gyzweedWalkInterval->setup_play(0, 10, 1, false);
-	gyzweedWalkInterval->start();
+	app->get_gyzweed()->walk_to(newPos);
 }
 
 void Application::unload_assets() {
@@ -269,12 +245,8 @@ void Application::update() {
 	_object_manager->update(elapsed);
 	_audio_manager->update();
 	
-	if(gyzweedWalkInterval != NULL) 
-		if(!gyzweedWalkInterval->step_play()) {	// returns false when the interval is finished
-			gyzweedWalkInterval = NULL;
-			_anim_controls.stop_all();
-			_anim_controls.pose_all(4);
-		}
+	// TODO: Update every GameObject
+	_gyzweed->update();
 }
 
 AsyncTask::DoneStatus Application::update_task_callback(GenericAsyncTask* task, void* data) {

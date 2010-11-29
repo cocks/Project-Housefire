@@ -16,21 +16,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-// TODO: Should this class inherit from NodePath?
 
 #ifndef HOUSEFIRE_GYZWEED_HPP
 #define HOUSEFIRE_GYZWEED_HPP
 
+#include "gameObject.hpp"
+#include "gameObjectManager.hpp"
+#include "gameObjectController.hpp"
 #include "application.hpp"
+#include <cLerpNodePathInterval.h>
 
-class Gyzweed
+class Gyzweed : public GameObject
 {	
 public:
 	Gyzweed(Application const&);
 	
+	void walk_to(LPoint3f pos);
+	
+	void update();
+	
 	NodePath get_node_path() const;
 	
 private:
+	PT(CLerpNodePathInterval) _walk_interval;
+
 	NodePath _node_path;
 	
 	Application const& _app;
