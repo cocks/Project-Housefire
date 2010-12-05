@@ -23,9 +23,14 @@ Gyzweed::Gyzweed(Application const& application)
 : _app(application) {
 	_node_path = _app.get_window()->load_model(_app.get_framework()->get_models(), "ralph");
 	_app.get_window()->load_model(_node_path, "ralph-run");
-	
-	_node_path.reparent_to(_app.get_window()->get_render());
 	_node_path.set_scale(1.1);
+}
+
+/*
+ * Place Gyzweed in the scene at the default location.
+ */
+void Gyzweed::place() {
+	_node_path.reparent_to(_app.get_window()->get_render());
 	_node_path.set_pos(_app.get_ground().get_x()+20, _app.get_ground().get_y()+20, _app.get_ground().get_z());
 	_node_path.set_hpr(180, 0, 0);
 }

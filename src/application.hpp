@@ -79,8 +79,6 @@ private:
 	
 	void unload_assets();
 	
-	static void handle_mouse(const Event* e, void* data);
-	
 	void update();
 	
 	static AsyncTask::DoneStatus update_task_callback(GenericAsyncTask* task, void* data);

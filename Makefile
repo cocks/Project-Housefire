@@ -8,8 +8,8 @@ endif
 
 BINDIR := bin
 
-COMPILEFLAGS := -Wall -fPIC -O2 -I/usr/include/python2.6 -I$(P3DINCLUDEDIR) 
-OBJECTFILES := $(BINDIR)/main.o $(BINDIR)/application.o $(BINDIR)/gameObject.o $(BINDIR)/gameObjectManager.o $(BINDIR)/gameObjectController.o $(BINDIR)/gyzweed.o
+COMPILEFLAGS := -Wall -fPIC -O2 -I/usr/include/python2.6 -I$(P3DINCLUDEDIR)
+OBJECTFILES := $(BINDIR)/main.o $(BINDIR)/application.o $(BINDIR)/gameObject.o $(BINDIR)/gameObjectManager.o $(BINDIR)/gameObjectController.o $(BINDIR)/gyzweed.o $(BINDIR)/mouseHandler.o
 
 ProjectHousefire: $(OBJECTFILES)
 	g++ $(OBJECTFILES) -o $(BINDIR)/ProjectHousefire -fPIC -L$(P3DLIBDIR) -lp3framework -lpanda -lpandafx -lpandaexpress -lp3dtoolconfig -lp3dtool -lp3pystub -lp3direct
@@ -26,6 +26,8 @@ $(BINDIR)/gameObjectController.o: src/gameObjectController.cpp
 	g++ -c src/gameObjectController.cpp -o $(BINDIR)/gameObjectController.o $(COMPILEFLAGS)
 $(BINDIR)/gyzweed.o: src/gyzweed.cpp
 	g++ -c src/gyzweed.cpp -o $(BINDIR)/gyzweed.o $(COMPILEFLAGS)
+$(BINDIR)/mouseHandler.o: src/mouseHandler.cpp
+	g++ -c src/mouseHandler.cpp -o $(BINDIR)/mouseHandler.o $(COMPILEFLAGS)
 clean:
 	rm -f $(OBJECTFILES) $(BINDIR)/ProjectHousefire 
 	rmdir $(BINDIR)

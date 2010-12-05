@@ -17,38 +17,36 @@
 //
 
 
-#ifndef HOUSEFIRE_GYZWEED_HPP
-#define HOUSEFIRE_GYZWEED_HPP
+#ifndef HOUSEFIRE_MOUSEHANDLER_HPP
+#define HOUSEFIRE_MOUSEHANDLER_HPP
 
-#include "gameObject.hpp"
-#include "gameObjectManager.hpp"
-#include "gameObjectController.hpp"
 #include "application.hpp"
-#include <cLerpNodePathInterval.h>
+#include <mouseWatcher.h>
+#include <collisionRay.h>
+#include <collisionTraverser.h>
+#include <collisionHandlerQueue.h>
+#include <collisionNode.h>
 
-class Gyzweed : public GameObject
+class MouseHandler
 {	
 public:
-	Gyzweed(Application const&);
 	
-	void walk_to(LPoint3f pos);
+	static void handle_mouse(const Event* e, void* data);
 	
-	void place();
-	
-	void update();
-	
-	NodePath get_node_path() const;
+	static void init(Application const& app);
 	
 private:
-	PT(CLerpNodePathInterval) _walk_interval;
-
-	NodePath _node_path;
 	
-	Application const& _app;
+	MouseHandler();
+	
+private:
+	
+	static PT(MouseWatcher) _mouse_watcher;
+	static PT(CollisionRay) _picker_ray;
+	static CollisionTraverser _traverser;
+	static PT(CollisionHandlerQueue) _handler;
+	static PT(CollisionNode) _picker_node;
+	static NodePath _picker_np;
 };
 
-inline NodePath Gyzweed::get_node_path() const {
-	return _node_path;
-}
-
-#endif // HOUSEFIRE_GYZWEED_HPP
+#endif // HOUSEFIRE_MOUSEHANDLER_HPP

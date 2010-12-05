@@ -21,29 +21,15 @@
 #include "gameObject.hpp"
 #include "gameObjectController.hpp"
 #include "gameObjectManager.hpp"
+#include "mouseHandler.h"
 #include <texturePool.h>
-#include <directionalLight.h>
 #include <cIntervalManager.h>
 #include <auto_bind.h>
 #include <animControlCollection.h>
-#include <mouseWatcher.h>
-#include <collisionRay.h>
-#include <collisionTraverser.h>
-#include <collisionHandlerQueue.h>
-#include <collisionNode.h>
 #include <audioManager.h>
 #include <asyncTaskManager.h>
 #include <clockObject.h>
 #include <load_prc_file.h>
-
-// TODO: get rid of these globals
-PT(MouseWatcher) mouseWatcher;
-PT(CollisionRay) pickerRay;
-CollisionTraverser myTraverser = CollisionTraverser("ctraverser");
-PT(CollisionHandlerQueue) myHandler = new CollisionHandlerQueue();
-PT(CollisionNode) pickerNode;
-NodePath pickerNP;
-PT(DirectionalLight) d_light;
 
 Application::Application()
 : _config_page(0),
@@ -110,17 +96,8 @@ bool Application::initiate_engine(int argc, char** argv) {
 	_update_task = new GenericAsyncTask("HousefireUpdateTask", &Application::update_task_callback, this);
 	_framework->get_task_mgr().add(_update_task);
 	
-	_framework->define_key("mouse1", "click", Application::handle_mouse, this);
-	
-	// used for click-to-move
-	pickerNode = new CollisionNode("mouseRay");
-	pickerNP = _window->get_camera_group().attach_new_node (pickerNode);
-	pickerNode->set_from_collide_mask(GeomNode::get_default_collide_mask());
-	pickerRay = new CollisionRay();
-	pickerNode->add_solid(pickerRay);
-	myHandler = new CollisionHandlerQueue();
-	myTraverser.add_collider(pickerNP, myHandler);
-	myTraverser.show_collisions(_window->get_render());
+	MouseHandler::init(*this);
+	_framework->define_key("mouse1", "click", MouseHandler::handle_mouse, this);
 	
 	return true;
 }
@@ -168,7 +145,7 @@ bool Application::load_assets() {
 	_background_music->set_loop(true);
 	_background_music->play();
 	
-	// make a flat textured poly for the ground
+	// load/init the ground model
 	_ground = _window->load_model(_framework->get_models(), "background");
 	_ground.reparent_to(_window->get_render());
 	PT(Texture) groundTex = TexturePool::load_texture("assets/textures/burnt_sand_light.png");
@@ -178,7 +155,9 @@ bool Application::load_assets() {
 	_ground.set_hpr(0,0,0);
 	
 	_gyzweed = new Gyzweed(*this);
+	_gyzweed->place();
 	
+	// TODO: move this line into gyzweed class?
 	auto_bind(_gyzweed->get_node_path().node(), _anim_controls,
 			  PartGroup::HMF_ok_part_extra | PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
 	
@@ -186,47 +165,12 @@ bool Application::load_assets() {
 	_window->get_camera_group().set_pos(0, 100, 80);
 	_window->get_camera_group().look_at(_gyzweed->get_node_path());
 	
-	d_light = new DirectionalLight("my d_light");
-	NodePath dlnp = _window->get_render().attach_new_node(d_light);
-	d_light->set_direction(LVector3f(-5, -5, -5));
-	_window->get_render().set_light(dlnp);
-	
 	_window->set_lighting(1);
 	
 	// for collisions
 	_ground.set_tag("groundTag", "1");
 	
-	mouseWatcher = DCAST (MouseWatcher, _window->get_mouse().node());
-	
 	return true;
-}
-
-void Application::handle_mouse(const Event* e, void* data) {
-	//TODO: If you click on Gyzweed he will move to the point on his model where the click hit.
-	
-	Application* app = static_cast< Application* >(data);
-	
-	if (!mouseWatcher->has_mouse()){
-		// The mouse is probably outside the screen.
-		return;
-	}
-	// This gives up the screen coordinates of the mouse.
-	LPoint2f mpos = mouseWatcher->get_mouse();
-	
-	// This makes the ray's origin the camera and makes the ray point 
-	// to the screen coordinates of the mouse.
-	pickerRay->set_from_lens(app->get_window()->get_camera(0), mpos.get_x(), mpos.get_y());
-	
-	myTraverser.traverse(app->get_window()->get_render());
-	
-	LPoint3f newPos;
-	if (myHandler->get_num_entries() > 0) {
-		newPos = myHandler->get_entry(0)->get_surface_point(app->get_window()->get_render());
-	} else {
-		return;
-	}
-	
-	app->get_gyzweed()->walk_to(newPos);
 }
 
 void Application::unload_assets() {
